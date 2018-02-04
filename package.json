@@ -1,0 +1,45 @@
+{
+  "name": "bot-food",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Food Bot. A bot that helps you organize lunch at work.",
+  "license": "Apache 2.0",
+  "repository": "https://github.com/palmerabollo/mybot",
+  "author": "Guido García <palmerabollo@gmail.com> (https://twitter.com/palmerabollo)",
+  "keywords": [
+    "assistant",
+    "bot"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rm -rf ./lib",
+    "compile": "tsc",
+    "lint": "tslint './src/**/*.ts'",
+    "prepublish": "npm run build",
+    "prestart": "npm install",
+    "postinstall": "npm run build",
+    "watch": "npm-run-all --parallel watch:*",
+    "watch-console": "BOT_CONSOLE=1 npm run watch",
+    "watch:ts": "tsc -w",
+    "watch:js": "nodemon --delay 2 --watch lib -e js --exec 'node -r dotenv/config lib/index.js'",
+    "start": "node -r dotenv/config lib/index.js",
+    "debug": "npm start -- -c --debug-brk"
+  },
+  "dependencies": {
+    "botbuilder": "^3.14.0",
+    "botbuilder-aws-lambda": "^1.0.2",
+    "logops": "^2.1.0",
+    "restify": "^6.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.18",
+    "@types/restify": "^4.3.1",
+    "nodemon": "^1.11.0",
+    "npm-run-all": "^4.0.2",
+    "tslint": "^5.2.0",
+    "typescript": "^2.7.1"
+  },
+  "engines": {
+    "node": ">=6"
+  }
+}

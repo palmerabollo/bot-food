@@ -1,0 +1,42 @@
+{
+    "text": "hi",
+    "type": "message",
+    "timestamp": "2018-02-04T19:12:14.946Z",
+    "entities": [
+        {
+            "locale": "en-GB",
+            "country": "GB",
+            "platform": "Mac",
+            "type": "clientInfo"
+        }
+    ],
+    "sourceEvent": {
+        "text": "hi"
+    },
+    "attachments": [],
+    "address": {
+        "id": "1517771534943",
+        "channelId": "skype",
+        "user": {
+            "id": "29:127VTSMs3dEiFKxxxSIQm38MDxM",
+            "name": "Guido"
+        },
+        "conversation": {
+            "id": "29:127VTSMs3dEiFKxxxSIQm38MDxM"
+        },
+        "bot": {
+            "id": "28:e1026e17-e433-47e3-bdb0-1f76e57c828f",
+            "name": "bot-food"
+        },
+        "serviceUrl": "https://smba.trafficmanager.net/apis/"
+    },
+    "source": "skype",
+    "agent": "botbuilder",
+    "user": {
+        "id": "29:127VTSMs3dEiFKxxxSIQm38MDxM",
+        "name": "Guido"
+    },
+    "time": "2018-02-04T19:12:16.269Z",
+    "lvl": "INFO",
+    "msg": "Message received"
+}
