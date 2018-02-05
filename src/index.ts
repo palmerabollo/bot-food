@@ -5,6 +5,8 @@ import * as restify from 'restify';
 
 const lambda = require('botbuilder-aws-lambda');
 
+import { FoodOrganizer } from './database';
+
 import loggerMiddleware from './middlewares/logger';
 
 let connector: builder.ConsoleConnector | builder.ChatConnector;
@@ -22,7 +24,37 @@ if (process.env.BOT_CONSOLE) {
 }
 
 const bot = new builder.UniversalBot(connector, (session) => {
-    session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
+    session.sendTyping();
+
+    let command = session.message.text.replace('bot-food', '').trim();
+
+    if (['+1', 'ok', '👍', 'yes'].indexOf(command) >= 0) {
+        let organizer = new FoodOrganizer();
+        organizer
+            .add({
+                id: session.message.user.id,
+                name: session.message.user.name,
+                conversation: session.message.address.conversation.id
+            })
+            .then(() => organizer.all())
+            .then(users => session.endDialog(`Done. Total ${users.length}`))
+            .catch(() => {
+                session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
+            });
+    } else if (['list', 'all', 'total'].indexOf(command) >= 0) {
+        let organizer = new FoodOrganizer();
+        organizer
+            .all()
+            .then((users => {
+                session.send(users.map(user => user.name).join('\n'));
+                session.endDialog(`Total ${users.length}`);
+            }))
+            .catch(() => {
+                session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
+            });
+    } else {
+        session.endDialog('I only understand "+1" or "list"');
+    }
 });
 
 bot.set('localizerSettings', {
