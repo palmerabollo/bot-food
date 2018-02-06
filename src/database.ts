@@ -14,8 +14,9 @@ export class FoodOrganizer {
         let params = {
             TableName: 'botfood',
             Item: {
-                id: user.id + ':' + user.conversation,
-                name: user.name
+                id: user.id + '__' + user.conversation,
+                name: user.name,
+                created_at: Math.round(Date.now() / 1000)
             }
         };
 

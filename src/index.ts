@@ -46,12 +46,14 @@ const bot = new builder.UniversalBot(connector, (session) => {
         organizer
             .all()
             .then((users => {
-                session.send(users.map(user => user.name).join('\n'));
+                session.send(users.map(user => user.name).join('  \n'));  // XXX skype line break
                 session.endDialog(`Total ${users.length}`);
             }))
             .catch(() => {
                 session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
             });
+    } else if (['-1', 'nok', 'no'].indexOf(command) >= 0) {
+        session.endDialog('Sorry, this option will be ready soon');
     } else {
         session.endDialog('I only understand "+1" or "list"');
     }
