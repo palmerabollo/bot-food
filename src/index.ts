@@ -46,7 +46,7 @@ const bot = new builder.UniversalBot(connector, (session) => {
         organizer
             .all()
             .then((users => {
-                session.send(users.map(user => user.name).join('\n'));
+                session.send(users.map(user => user.name).join('  \n'));  // XXX skype line break
                 session.endDialog(`Total ${users.length}`);
             }))
             .catch(() => {
