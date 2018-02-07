@@ -3,6 +3,8 @@ import * as AWS from 'aws-sdk';
 
 const doc = new AWS.DynamoDB.DocumentClient();
 
+const TTL_SECONDS = 4 * 60 * 60; // TTL is managed by DynamoDB
+
 export interface User {
     id: string;
     name: string;
@@ -16,7 +18,7 @@ export class FoodOrganizer {
             Item: {
                 id: user.id + '__' + user.conversation,
                 name: user.name,
-                created_at: Math.round(Date.now() / 1000)
+                ttl: Math.round(Date.now() / 1000) + TTL_SECONDS
             }
         };
 

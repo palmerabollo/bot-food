@@ -26,7 +26,10 @@ if (process.env.BOT_CONSOLE) {
 const bot = new builder.UniversalBot(connector, (session) => {
     session.sendTyping();
 
-    let command = session.message.text.replace('bot-food', '').trim();
+    let command = session.message.text
+        .replace('@bot-food', '')
+        .replace('bot-food', '')
+        .trim();
 
     if (['+1', 'ok', '👍', 'yes'].indexOf(command) >= 0) {
         let organizer = new FoodOrganizer();
