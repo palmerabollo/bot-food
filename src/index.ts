@@ -26,10 +26,7 @@ if (process.env.BOT_CONSOLE) {
 const bot = new builder.UniversalBot(connector, (session) => {
     session.sendTyping();
 
-    let command = session.message.text
-        .replace('@bot-food', '')
-        .replace('bot-food', '')
-        .trim();
+    let command = cleanInput(session.message.text);
 
     if (['+1', 'ok', '👍', 'yes'].indexOf(command) >= 0) {
         let organizer = new FoodOrganizer();
@@ -55,7 +52,7 @@ const bot = new builder.UniversalBot(connector, (session) => {
             .catch(() => {
                 session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
             });
-    } else if (['-1', 'yo no', 'no', '👎'].indexOf(command) >= 0) {
+    } else if (['-1', 'no', '👎'].indexOf(command) >= 0) {
         let organizer = new FoodOrganizer();
         organizer
             .remove({
@@ -68,8 +65,10 @@ const bot = new builder.UniversalBot(connector, (session) => {
             .catch(() => {
                 session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
             });
+    } else if (['call', 'reserve', 'book'].indexOf(command) >= 0) {
+        session.endDialog('This feature will be ready soon');
     } else {
-        session.endDialog('I only understand "+1", "-1" or "list"');
+        session.endDialog('I only understand "+1", "-1", "list" and "reserve"');
     }
 });
 
@@ -92,4 +91,11 @@ loadBotMiddlewares(bot);
 function loadBotMiddlewares(bot: builder.UniversalBot) {
     bot.use(loggerMiddleware);
     bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
+}
+
+function cleanInput(input: string) {
+    return input
+        .replace('@bot-food', '')
+        .replace('bot-food', '')
+        .trim();
 }
