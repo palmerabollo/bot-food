@@ -52,8 +52,21 @@ const bot = new builder.UniversalBot(connector, (session) => {
             .catch(() => {
                 session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
             });
+    } else if (['-1', 'yo no', 'no', '👎'].indexOf(command) >= 0) {
+        let organizer = new FoodOrganizer();
+        organizer
+            .remove({
+                id: session.message.user.id,
+                name: session.message.user.name,
+                conversation: session.message.address.conversation.id
+            })
+            .then(() => organizer.all())
+            .then(users => session.endDialog(`Done. Total ${users.length}`))
+            .catch(() => {
+                session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
+            });
     } else {
-        session.endDialog('I only understand "+1" or "list"');
+        session.endDialog('I only understand "+1","list" or "-1');
     }
 });
 

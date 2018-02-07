@@ -20,7 +20,7 @@ export class FoodOrganizer {
         };
 
         return new Promise((resolve, reject) => {
-            doc.put(params, (err, data) => {
+            doc.put(params, (err: any, data: any) => {
                 if (err) {
                     logger.error(err, 'unable to save user in dynamodb');
                     return reject(err);
@@ -37,13 +37,13 @@ export class FoodOrganizer {
         };
 
         return new Promise((resolve, reject) => {
-            doc.scan(params, (err, data) => {
+            doc.scan(params, (err: any, data: any) => {
                 if (err) {
                     logger.error(err, 'unable to get users from dynamodb');
                     return reject(err);
                 }
 
-                let users = data.Items.map(element => {
+                let users = data.Items.map((element:any) => {
                     logger.debug(element, 'element from database scan');
                     return {
                         id: element.id.split(':')[0],
@@ -58,8 +58,22 @@ export class FoodOrganizer {
     }
 
     public remove(user: User): Promise<void> {
-        // TODO
-        return Promise.resolve();
+        let params = {
+            TableName: 'botfood', 
+            Item: {
+                id: user.id + ':' + user.conversation,
+                name: user.name
+            }
+        };
+        return new Promise((resolve, reject) => {
+            doc.remove(params, (err:any, data: any) => {
+                if (err) {
+                    logger.error(err, 'unable to remove user in dynamodb');
+                    return reject(err);
+                }
+                return resolve();
+            });
+        });
     }
 
     public count(): number {
