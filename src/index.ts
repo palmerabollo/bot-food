@@ -66,7 +66,7 @@ const bot = new builder.UniversalBot(connector, (session) => {
                 session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
             });
     } else {
-        session.endDialog('I only understand "+1","list" or "-1');
+        session.endDialog('I only understand "+1", "-1" or "list"');
     }
 });
 
