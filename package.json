@@ -26,19 +26,17 @@
     "debug": "npm start -- -c --debug-brk"
   },
   "dependencies": {
-    "aws-sdk": "^2.188.0",
-    "botbuilder": "^3.14.0",
+    "aws-sdk": "^2.339.0",
+    "botbuilder": "^3.16.0",
     "botbuilder-aws-lambda": "^1.0.2",
-    "logops": "^2.1.0",
-    "restify": "^6.3.4"
+    "logops": "^2.1.0"
   },
   "devDependencies": {
-    "@types/node": "^7.0.18",
-    "@types/restify": "^4.3.1",
-    "nodemon": "^1.11.0",
-    "npm-run-all": "^4.0.2",
-    "tslint": "^5.2.0",
-    "typescript": "^2.7.1"
+    "@types/node": "^10.12.23",
+    "nodemon": "^1.18.9",
+    "npm-run-all": "^4.1.5",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
   },
   "engines": {
     "node": ">=6"

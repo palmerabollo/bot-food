@@ -3,7 +3,7 @@ import * as AWS from 'aws-sdk';
 
 const doc = new AWS.DynamoDB.DocumentClient();
 
-const TTL_SECONDS = 3 * 60 * 60; // TTL is managed by DynamoDB
+const TTL_SECONDS = 5 * 60 * 60; // TTL is managed by DynamoDB
 
 export interface User {
     id: string;

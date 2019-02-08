@@ -1,7 +1,6 @@
 import * as path from 'path';
 import * as logger from 'logops';
 import * as builder from 'botbuilder';
-import * as restify from 'restify';
 
 const lambda = require('botbuilder-aws-lambda');
 
@@ -41,7 +40,7 @@ const bot = new builder.UniversalBot(connector, (session) => {
             .catch(() => {
                 session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
             });
-    } else if (['list', 'all', 'total'].indexOf(command) >= 0) {
+    } else if (['list', 'all', 'total', 'who'].indexOf(command) >= 0) {
         let organizer = new FoodOrganizer();
         organizer
             .all()
@@ -66,7 +65,7 @@ const bot = new builder.UniversalBot(connector, (session) => {
                 session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
             });
     } else if (['call', 'reserve', 'book'].indexOf(command) >= 0) {
-        session.endDialog('This feature will be ready soon');
+        session.endDialog('This feature will be ready soon.');
     } else {
         session.endDialog('I only understand "+1", "-1", "list" and "reserve"');
     }
