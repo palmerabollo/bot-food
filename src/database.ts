@@ -67,13 +67,23 @@ export class FoodOrganizer {
                 id: user.id + '__' + user.conversation
             }
         };
+
         return new Promise((resolve, reject) => {
-            doc.delete(params, (err, data) => {
+            // XXX get is here for debugging purposes, it is not needed
+            doc.get(params, (err, data) => {
                 if (err) {
-                    logger.error(err, 'unable to remove user in dynamodb');
-                    return reject(err);
+                    logger.error('item not found', err);
+                } else {
+                    logger.debug('item found', data);
                 }
-                return resolve();
+
+                doc.delete(params, (err, data) => {
+                    if (err) {
+                        logger.error(err, 'unable to remove user in dynamodb');
+                        return reject(err);
+                    }
+                    return resolve();
+                });
             });
         });
     }

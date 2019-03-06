@@ -64,8 +64,8 @@ const bot = new builder.UniversalBot(connector, (session) => {
             .catch(() => {
                 session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
             });
-    } else if (['call', 'reserve', 'book'].indexOf(command) >= 0) {
-        session.endDialog('This feature will be ready soon.');
+    } else if (['call', 'reserve', 'book', 'phone'].indexOf(command) >= 0) {
+        session.endDialog('This feature will be ready soon. 983 48 86 98.');
     } else {
         session.endDialog('I only understand "+1", "-1", "list" and "reserve"');
     }
