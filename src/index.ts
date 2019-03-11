@@ -7,6 +7,7 @@ const lambda = require('botbuilder-aws-lambda');
 import { FoodOrganizer } from './database';
 
 import loggerMiddleware from './middlewares/logger';
+import { getUnpackedSettings } from 'http2';
 
 let connector: builder.ConsoleConnector | builder.ChatConnector;
 
@@ -26,48 +27,73 @@ const bot = new builder.UniversalBot(connector, (session) => {
     session.sendTyping();
 
     let command = cleanInput(session.message.text);
+    let conversation = session.message.address.conversation.id;
 
-    if (['+1', 'ok', '👍', 'yes'].indexOf(command) >= 0) {
+    const confirmations = [
+        'Okie dokie',
+        'Yes, sir',
+        'Yes, ma\'am',
+        'Done',
+        'Ok',
+        'Okey',
+        'Understood',
+        'Sure',
+        'Your wish is my command'
+    ];
+
+    if (['+1', '+2', '+3', '+4', 'ok', '👍', 'yes', 'add', 'in', 'i\'m in'].indexOf(command) >= 0) {
         let organizer = new FoodOrganizer();
         organizer
             .add({
                 id: session.message.user.id,
                 name: session.message.user.name,
-                conversation: session.message.address.conversation.id
+                conversation: conversation,
+                guests: guests(command)
             })
-            .then(() => organizer.all())
-            .then(users => session.endDialog(`Done. Total ${users.length}`))
+            .then(() => organizer.all(conversation))
+            .then(users => {
+                let count = users.reduce((sum, current) => sum + current.guests , 1);
+                let confirmation = confirmations[Math.floor(Math.random() * confirmations.length)];
+                session.endDialog(`${confirmation}. Total ${count}`);
+            })
             .catch(() => {
                 session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
             });
     } else if (['list', 'all', 'total', 'who'].indexOf(command) >= 0) {
         let organizer = new FoodOrganizer();
         organizer
-            .all()
+            .all(conversation)
             .then((users => {
-                session.send(users.map(user => user.name).join('  \n'));  // XXX skype line break
-                session.endDialog(`Total ${users.length}`);
+                let count = users.reduce((sum, current) => sum + current.guests , 1);
+                let list = users.map(user => {
+                    return user.guests > 1 ? `${user.name} (+${user.guests})` : user.name;
+                }).join('\n');
+                session.endDialog(list + `\nTotal ${count}`);
             }))
             .catch(() => {
                 session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
             });
-    } else if (['-1', 'no', '👎'].indexOf(command) >= 0) {
+    } else if (['-1', 'no', '🐔', '👎', 'remove', 'delete'].indexOf(command) >= 0) {
         let organizer = new FoodOrganizer();
         organizer
             .remove({
                 id: session.message.user.id,
-                name: session.message.user.name,
-                conversation: session.message.address.conversation.id
+                conversation: conversation
             })
-            .then(() => organizer.all())
-            .then(users => session.endDialog(`Done. Total ${users.length}`))
+            .then(() => organizer.all(conversation))
+            .then(users => {
+                let confirmation = confirmations[Math.floor(Math.random() * confirmations.length)];
+                session.endDialog(`${confirmation}. Total ${users.length}`);
+            })
             .catch(() => {
                 session.endDialog(`Sorry ${session.message.user.name}, I am still learning`);
             });
     } else if (['call', 'reserve', 'book', 'phone'].indexOf(command) >= 0) {
-        session.endDialog('This feature will be ready soon. 983 48 86 98.');
+        session.endDialog('This feature will be ready soon.\nGasolinera 983 48 86 98.\nComo en Casa 983 54 83 91');
+    } else if (['help', 'about', 'bug'].indexOf(command) >= 0) {
+        session.endDialog('More info about me at https://github.com/palmerabollo/bot-food');
     } else {
-        session.endDialog('I only understand "+1", "-1", "list" and "reserve"');
+        session.endDialog('I only understand "+1" (up to +4), "-1", "list" and "reserve"');
     }
 });
 
@@ -97,4 +123,14 @@ function cleanInput(input: string) {
         .replace('@bot-food', '')
         .replace('bot-food', '')
         .trim();
+}
+
+function guests(input: string) {
+    switch (input) {
+        case '+1': return 0;
+        case '+2': return 1;
+        case '+3': return 2;
+        case '+4': return 3;
+        default: return 0;
+    }
 }

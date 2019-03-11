@@ -7,8 +7,9 @@ const TTL_SECONDS = 5 * 60 * 60; // TTL is managed by DynamoDB
 
 export interface User {
     id: string;
-    name: string;
     conversation: string;
+    name?: string;
+    guests?: number;
 }
 
 export class FoodOrganizer {
@@ -17,13 +18,15 @@ export class FoodOrganizer {
             TableName: 'botfood',
             Item: {
                 id: user.id + '__' + user.conversation,
+                conversation: user.conversation,
                 name: user.name,
-                ttl: Math.round(Date.now() / 1000) + TTL_SECONDS
+                ttl: Math.round(Date.now() / 1000) + TTL_SECONDS,
+                guests: user.guests
             }
         };
 
         return new Promise((resolve, reject) => {
-            doc.put(params, (err, data) => {
+            doc.put(params, (err) => {
                 if (err) {
                     logger.error(err, 'unable to save user in dynamodb');
                     return reject(err);
@@ -33,10 +36,14 @@ export class FoodOrganizer {
         });
     }
 
-    public all(): Promise<User[]> {
+    public all(conversation: string): Promise<User[]> {
         let params = {
             TableName: 'botfood',
-            Limit: 500
+            Limit: 500,
+            FilterExpression: 'conversation = :conversation',
+            ExpressionAttributeValues: {
+                ':conversation': conversation
+            }
         };
 
         return new Promise((resolve, reject) => {
@@ -51,7 +58,8 @@ export class FoodOrganizer {
                     return {
                         id: element.id.split(':')[0],
                         conversation: element.id.split(':')[1],
-                        name: element.name
+                        name: element.name,
+                        guests: element.guests
                     } as User;
                 });
 
@@ -77,7 +85,7 @@ export class FoodOrganizer {
                     logger.debug('item found', data);
                 }
 
-                doc.delete(params, (err, data) => {
+                doc.delete(params, (err) => {
                     if (err) {
                         logger.error(err, 'unable to remove user in dynamodb');
                         return reject(err);
