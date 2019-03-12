@@ -52,7 +52,7 @@ const bot = new builder.UniversalBot(connector, (session) => {
             })
             .then(() => organizer.all(conversation))
             .then(users => {
-                let count = users.reduce((sum, current) => sum + current.guests , 1);
+                let count = users.reduce((sum, current) => sum + current.guests + 1, 0);
                 let confirmation = confirmations[Math.floor(Math.random() * confirmations.length)];
                 session.endDialog(`${confirmation}. Total ${count}`);
             })
@@ -64,7 +64,7 @@ const bot = new builder.UniversalBot(connector, (session) => {
         organizer
             .all(conversation)
             .then((users => {
-                let count = users.reduce((sum, current) => sum + current.guests , 1);
+                let count = users.reduce((sum, current) => sum + current.guests + 1, 0);
                 let list = users.map(user => {
                     return user.guests > 1 ? `${user.name} (+${user.guests})` : user.name;
                 }).join('\n');
