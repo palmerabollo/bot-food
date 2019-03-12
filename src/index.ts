@@ -7,7 +7,6 @@ const lambda = require('botbuilder-aws-lambda');
 import { FoodOrganizer } from './database';
 
 import loggerMiddleware from './middlewares/logger';
-import { getUnpackedSettings } from 'http2';
 
 let connector: builder.ConsoleConnector | builder.ChatConnector;
 
