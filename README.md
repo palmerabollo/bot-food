@@ -1,6 +1,6 @@
 # bot-food
 
-Bot Food. A bot that helps you organize lunch at work. Try it adding @bot-food to your Skype groups.
+Bot Food. A bot that helps you organize lunch at work. **Add @bot-food to your Skype groups** and give it a try.
 
 The bot understand the following commands:
 - **@bot-food +1** means that you'll have lunch today.
