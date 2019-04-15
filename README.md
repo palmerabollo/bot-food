@@ -1,10 +1,19 @@
-# foodbot
+# bot-food
 
-Food Bot. A bot that helps you organize lunch at work.
+Bot Food. A bot that helps you organize lunch at work. **Add @bot-food to your Skype groups** and give it a try.
 
-## configure the bot
+The bot understand the following commands:
+- **@bot-food +1** means that you'll have lunch today.
+- **@bot-food -1** means that you changed your mind.
+- **@bot-food list** to get the list of people who are ready to have lunch today.
 
-Export the following environment variables:
+This bot is a quick & dirty tool. Don't expect to see beautiful code here.
+
+## Development
+
+### configure the bot
+
+The bot uses [Microsoft Bot Framework](https://dev.botframework.com/). You need to export the following environment variables:
 
 ```sh
 MICROSOFT_APP_ID=
@@ -12,12 +21,12 @@ MICROSOFT_APP_PASSWORD=
 BOT_DEFAULT_LOCALE=en
 ```
 
-## run the bot
+### run the bot
 
 Prerequisites: node 6+
 
 ```sh
-git clone git@github.com:palmerabollo/foodbot.git && cd foodbot
+git clone git@github.com:palmerabollo/bot-food.git && cd bot-food
 npm install
 npm run watch-console # run in console mode
 ```
