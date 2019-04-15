@@ -15,7 +15,7 @@ functions:
     handler: lib/index.handler 
     events:
       - http:
-          path: "/bot"
+          path: "{proxy+}"
           method: any
 
 resources:
