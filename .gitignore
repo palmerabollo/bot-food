@@ -40,3 +40,5 @@ jspm_packages
 *.zip
 lib/
 .DS_Store
+
+.serverless

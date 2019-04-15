@@ -1,0 +1,22 @@
+service: bot-food-serverless 
+
+provider:
+  name: aws
+  runtime: nodejs8.10 
+  region: eu-west-1
+  stage: pro
+
+functions:
+  index:
+    environment:
+      MICROSOFT_APP_ID: xxx
+      MICROSOFT_APP_PASSWORD: xxx
+      AWS_LAMBDA_RUNTIME: true
+    handler: lib/index.handler 
+    events:
+      - http:
+          path: "/bot"
+          method: any
+
+resources:
+  Description: Bot Food - AWS Lambda Function
