@@ -1,8 +1,8 @@
-service: bot-food-serverless 
+service: bot-food-serverless
 
 provider:
   name: aws
-  runtime: nodejs8.10 
+  runtime: nodejs12.x
   region: eu-west-1
   stage: pro
 
@@ -12,7 +12,7 @@ functions:
       MICROSOFT_APP_ID: xxx
       MICROSOFT_APP_PASSWORD: xxx
       AWS_LAMBDA_RUNTIME: true
-    handler: lib/index.handler 
+    handler: lib/index.handler
     events:
       - http:
           path: "{proxy+}"

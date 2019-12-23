@@ -1,6 +1,6 @@
 # bot-food
 
-Bot Food. A bot that helps you organize lunch at work. **Add @bot-food to your Skype groups** and give it a try.
+Bot Food. A bot that helps you count people to organize lunch at work. **Add @bot-food to your Skype groups** and give it a try.
 
 The bot understand the following commands:
 - **@bot-food +1** means that you'll have lunch today.
@@ -31,4 +31,4 @@ npm install
 npm run watch-console # run in console mode
 ```
 
-You can also run the bot as a HTTP server os as a serverless AWS Lambda function.
+You can also run the bot as a HTTP server running as a serverless AWS Lambda function.

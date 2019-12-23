@@ -96,6 +96,8 @@ const bot = new builder.UniversalBot(connector, (session) => {
     }
 });
 
+bot.set('storage', new builder.MemoryBotStorage());
+
 bot.set('localizerSettings', {
     botLocalePath: path.join(__dirname, '..', 'locale'),
     defaultLocale: process.env.BOT_DEFAULT_LOCALE || 'en'
