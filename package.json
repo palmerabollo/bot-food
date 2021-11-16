@@ -27,7 +27,7 @@
     "debug": "npm start -- -c --debug-brk"
   },
   "dependencies": {
-    "aws-sdk": "^2.595.0",
+    "aws-sdk": "^2.814.0",
     "botbuilder": "^3.16.0",
     "botbuilder-aws-lambda": "^1.0.2",
     "logops": "^2.1.1"
